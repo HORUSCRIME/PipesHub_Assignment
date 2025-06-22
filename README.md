@@ -26,8 +26,8 @@ Handles MODIFY and CANCEL requests for orders already sent to the exchange by re
 Persistent Storage: Stores OrderResponse details, including calculated round-trip latency, into an SQLite database for historical analysis and auditing.
 Comprehensive Logging: Provides detailed logs for monitoring system behavior and debugging.
 
-**
-3. Design Decisions and Architecture**
+
+**3. Design Decisions and Architecture**
 Here’s a look at the Order Management System's design and how it's built:
 
 Our Order Management System (OMS) is really built to handle all the incoming order requests, guide them to the exchange, and then process the responses. We've paid close attention to things like making sure orders only go out during specific trading hours, limiting how many orders we send at once (throttling), and managing modifications and cancellations smoothly within our queues. To make sure it's quick, can handle lots of things at once, and is easy to keep updated, we've gone with a modular, multi-threaded approach.
@@ -94,8 +94,9 @@ Bash
 python3 order_management.py
 This will start the OMS, simulate incoming orders (NEW, MODIFY, CANCEL), and demonstrate its core functionalities including trading hours, throttling, and queue management. You will see log messages in your console.
 
-**6. Running Tests
-**The project includes a comprehensive suite of unit, integration, performance, and stress tests in test_order_management.py.
+**6. Running Tests**
+
+The project includes a comprehensive suite of unit, integration, performance, and stress tests in test_order_management.py.
 
 To run all tests:
 
@@ -104,8 +105,8 @@ Bash
 python3 test_order_management.py
 The output will show a detailed report of all tests run, including any failures or errors.
 
-**7. Assumptions and Future Considerations
-**This section details explicit and implicit assumptions made during development and potential areas for future enhancement.
+**7. Assumptions and Future Considerations**
+This section details explicit and implicit assumptions made during development and potential areas for future enhancement.
 
 TCP/Shared Memory (Upstream Input): We assumed that the onData method would receive orders from various upstream systems via TCP or shared memory – the actual implementation of that part wasn't our focus.
 Exchange Communication (send, sendLogon, sendLogout): The methods that actually send data to the exchange are just placeholders for now. We didn't need to implement the detailed communication protocols, allowing us to concentrate on the OMS's internal logic.
@@ -115,6 +116,6 @@ Storing Data (SQLite): We chose SQLite for saving data because it's simple and b
 Time Is Everything: We implicitly assumed that the system's clock is accurate and synchronized. This is crucial for calculating latencies correctly and for all our time-based operations like trading hours and throttling.
 Advanced Error Handling for Stored Responses: While we handle basic errors when saving responses, things like automatic retries for failed database writes aren't explicitly in place, but they'd be a consideration for a production-ready system.
 
-**8. Requirements
-**Python 3.8+
+**8. Requirements**
+Python 3.8+
 Standard Python libraries only (no external dependencies required).
